@@ -1,3 +1,10 @@
+import os
+import asyncio
+import skillsnetwork
+import httpx
+import tarfile
+
+
 extract_dir = "."
 
 url = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/4Z1fwRR295-1O3PMQBH6Dg/images-dataSAT.tar"
@@ -41,21 +48,26 @@ async def download_tar_dataset(url, tar_path, extract_dir):
     print(f"✅ Successfully extracted to '{extract_dir}'.")
 
 
-try:
-    check_skillnetwork_extraction(extract_dir)
-    await skillsnetwork.prepare(url = url, path = extract_dir, overwrite = True)
-except Exception as e:
-    print(e)
-    # --- FALLBACK METHOD FOR DOWNLOADING THE DATA ---
-    print("❌ Primary download/extration method failed.")
-    print("Falling back to manual download and extraction...")
-    
-    # import libraries required for downloading and extraction
-    import tarfile
-    import httpx 
-    from pathlib import Path
-    
-    file_name = Path(url).name
-    tar_path = os.path.join(extract_dir, file_name)
-    print(f"tar_path: {os.path.exists(tar_path)} ___ {tar_path}")
-    await download_tar_dataset(url, tar_path, extract_dir)
+async def main():
+    try:
+        check_skillnetwork_extraction(extract_dir)
+        await skillsnetwork.prepare(url = url, path = extract_dir, overwrite = True)
+    except Exception as e:
+        print(e)
+        # --- FALLBACK METHOD FOR DOWNLOADING THE DATA ---
+        print("❌ Primary download/extration method failed.")
+        print("Falling back to manual download and extraction...")
+        
+        # import libraries required for downloading and extraction
+        import tarfile
+        import httpx 
+        from pathlib import Path
+        
+        file_name = Path(url).name
+        tar_path = os.path.join(extract_dir, file_name)
+        print(f"tar_path: {os.path.exists(tar_path)} ___ {tar_path}")
+        await download_tar_dataset(url, tar_path, extract_dir)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
