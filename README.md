@@ -2,6 +2,8 @@
 
 This project performs geospatial land classification using satellite imagery. It implements a hybrid deep learning approach that combines **Convolutional Neural Networks (CNNs)** with a **Vision Transformer (ViT)** backbone to leverage both local feature extraction and global context for improved classification accuracy.
 
+![thumbnail](assets/agricultural-land-classification.png)
+
 **Dataset**
 - Satellite imagery organized into two classes: `class_0_non_agri` and `class_1_agri` (see `images_dataSAT/`).
 
